@@ -1,4 +1,4 @@
-🚀 Kickstart Your IT Career with a 3-Months DevOps Internship Program!
+🚀 Kickstart Your IT Career with a 3-Months Freshers Internship Program!
 
 Are you a fresher or recent graduate looking to build a strong foundation in DevOps and Cloud Technologies?
 Our 3-Month Internship + Job Placement Program is designed to give you hands-on practical training, live projects, and real job placement support.
