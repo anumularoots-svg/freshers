@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lan Edu Center | Freshers Internship Program 2024-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0066ff;
+            --accent-cyan: #00d4ff;
+            --deep-navy: #0a0e1a;
+            --dark-blue: #0d1526;
+            --glow-blue: #4d9fff;
+            --white: #ffffff;
+            --light-gray: #b8c5d6;
+            --gold: #ffd700;
+            --success-green: #00ff88;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--deep-navy);
+            color: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--deep-navy) 0%, #0d1a2d 50%, #091020 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 102, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(77, 159, 255, 0.05) 0%, transparent 70%);
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(0, 212, 255, 0.6); }
+        }
+
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--white), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--white);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 5% 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            min-height: 85vh;
+        }
+
+        .hero-content {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid var(--accent-cyan);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 25px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.5); }
+        }
+
+        .hero h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--glow-blue);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan), var(--glow-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .hero h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(77, 159, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .features-list li:hover {
+            padding-left: 15px;
+            background: linear-gradient(90deg, rgba(0, 102, 255, 0.1), transparent);
+            border-radius: 8px;
+        }
+
+        .check-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .check-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--white);
+        }
+
+        .features-list span {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .cta-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--primary-blue), #0052cc);
+            color: var(--white);
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.5);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.6);
+        }
+
+        .phone-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .stairs-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .hand-graphic {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.3));
+        }
+
+        /* Tech Stack Icons */
+        .tech-stack {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tech-row {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .tech-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            animation: techFloat 4s ease-in-out infinite;
+        }
+
+        .tech-icon:hover {
+            transform: scale(1.15) rotate(5deg);
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .tech-icon img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .tech-icon span {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        @keyframes techFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .tech-icon:nth-child(1) { animation-delay: 0s; }
+        .tech-icon:nth-child(2) { animation-delay: 0.2s; }
+        .tech-icon:nth-child(3) { animation-delay: 0.4s; }
+
+        .target-banner.top-banner {
+            margin: 20px 5% 40px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Target Audience Banner */
+        .target-banner {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.15), rgba(0, 212, 255, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 60px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .target-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .target-banner h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--gold), #ffed4a, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            position: relative;
+        }
+
+        .target-banner h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--light-gray);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .target-banner .years {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            position: relative;
+        }
+
+        .golden-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), #ffa500);
+            color: var(--deep-navy);
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 20px;
+            animation: pulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 102, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .contact-item svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent-cyan);
+        }
+
+        .contact-item span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .copyright {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 40px 5%;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .stairs-container {
+                max-width: 350px;
+            }
+
+            .tech-stack {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 30px;
+            }
+
+            .features-list li {
+                justify-content: center;
+            }
+
+            .cta-section {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+
+            .hero h3 {
+                font-size: 1.5rem;
+            }
+
+            .phone-number {
+                font-size: 1.4rem;
+            }
+
+            .target-banner h2 {
+                font-size: 2rem;
+            }
+
+            .target-banner .years {
+                font-size: 1.8rem;
+            }
+
+            .tech-icon {
+                width: 45px;
+                height: 45px;
+            }
+
+            .tech-icon img {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">🎓</div>
+            <div class="logo-text">
+                <h1>Lan Edu Center</h1>
+                <p>Are You Ready to Collaborate With Us?</p>
+            </div>
+        </div>
+        <a href="tel:9182132309" class="nav-cta">Register Now</a>
+    </header>
+
+    <main>
+        <!-- FRESHERS Banner - Top Position for Maximum Visibility -->
+        <section class="target-banner top-banner">
+            <h2>FRESHERS</h2>
+            <h3>ANY DEGREE | ANY BRANCH</h3>
+            <div class="years">2024 • 2025 • 2026</div>
+            <span class="golden-tag">🏆 GOLDEN OPPORTUNITY - 100% PLACEMENT SUPPORT</span>
+        </section>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="badge">🚀 3-Month Intensive Program</span>
+                <h2>Step Forward</h2>
+                <h1>INTO MULTIPLE <span class="highlight">CAREERS</span></h1>
+                <h3>One Internship</h3>
+                
+                <ul class="features-list">
+                    <li>
+                        <span class="check-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        </span>
+                        <span>100% Practical & Job-Oriented Training</span>
+                    </li>
+                    <li>
+                        <span class="check-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        </span>
+                        <span>Live Projects with Real-time Use Cases</span>
+                    </li>
+                    <li>
+                        <span class="check-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        </span>
+                        <span>Internship Completion Certificate</span>
+                    </li>
+                    <li>
+                        <span class="check-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        </span>
+                        <span>Resume Optimization & Interview Readiness</span>
+                    </li>
+                    <li>
+                        <span class="check-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        </span>
+                        <span>Placement Enablement with IT Partner Network</span>
+                    </li>
+                </ul>
+
+                <div class="cta-section">
+                    <a href="tel:9182132309" class="cta-btn cta-primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        Call Now
+                    </a>
+                    <span class="phone-number">📞 9182132309</span>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="stairs-container">
+                    <svg class="hand-graphic" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Hand Shape -->
+                        <defs>
+                            <linearGradient id="handGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#e0e8f0;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="stairGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4d9fff;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#0066ff;stop-opacity:0.5" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <!-- Main Hand -->
+                        <path d="M100 100 L120 80 L350 200 L350 450 L100 450 Z" fill="url(#handGradient)" opacity="0.95"/>
+                        
+                        <!-- Thumb -->
+                        <ellipse cx="90" cy="280" rx="40" ry="100" fill="url(#handGradient)" transform="rotate(-20 90 280)"/>
+                        
+                        <!-- Fingers suggestion -->
+                        <path d="M350 200 Q380 180 360 150 L340 170 Z" fill="url(#handGradient)"/>
+                        
+                        <!-- Stairs on palm -->
+                        <g filter="url(#glow)">
+                            <rect x="150" y="350" width="120" height="25" fill="url(#stairGradient)" rx="3"/>
+                            <rect x="170" y="310" width="100" height="25" fill="url(#stairGradient)" rx="3"/>
+                            <rect x="190" y="270" width="80" height="25" fill="url(#stairGradient)" rx="3"/>
+                            <rect x="210" y="230" width="60" height="25" fill="url(#stairGradient)" rx="3"/>
+                        </g>
+                        
+                        <!-- Person silhouette on stairs -->
+                        <g fill="#0a0e1a">
+                            <!-- Person 1 - top -->
+                            <circle cx="240" cy="210" r="12"/>
+                            <path d="M228 225 L252 225 L248 270 L232 270 Z"/>
+                            
+                            <!-- Person 2 - middle -->
+                            <circle cx="200" cy="250" r="10" opacity="0.6"/>
+                            <path d="M190 262 L210 262 L207 295 L193 295 Z" opacity="0.6"/>
+                        </g>
+                    </svg>
+                </div>
+                
+                <div class="tech-stack">
+                    <div class="tech-row">
+                        <div class="tech-icon" title="Docker">
+                            <svg viewBox="0 0 24 24" fill="#2496ED" width="35" height="35">
+                                <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.185.185v1.888c0 .102.084.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/>
+                            </svg>
+                        </div>
+                        <div class="tech-icon" title="Jenkins">
+                            <svg viewBox="0 0 24 24" fill="#D24939" width="35" height="35">
+                                <path d="M4.875 14.344c-.156.156-.41.156-.566 0a.4.4 0 010-.566c.156-.156.41-.156.566 0 .156.156.156.41 0 .566m.879-.809a.797.797 0 01-1.125-1.129.797.797 0 011.129 1.13m.058-2.426c.094 0 .188.035.262.109.144.144.144.379 0 .523a.37.37 0 01-.523 0 .37.37 0 010-.523.37.37 0 01.261-.11m11.473 7.36c0 2.652-2.152 4.804-4.805 4.804-2.652 0-4.8-2.152-4.8-4.805 0-2.652 2.148-4.8 4.8-4.8 2.653 0 4.805 2.148 4.805 4.8M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="tech-row">
+                        <div class="tech-icon" title="AWS">
+                            <svg viewBox="0 0 24 24" fill="#FF9900" width="35" height="35">
+                                <path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 01-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 01-.287-.375 6.18 6.18 0 01-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 01-.28.104.488.488 0 01-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 01.224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 011.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 00-.735-.136 6.02 6.02 0 00-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 01-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 01.32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 01.311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 01-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 01-.303.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 01-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 00.415-.758.777.777 0 00-.215-.559c-.144-.151-.416-.287-.807-.414l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 01-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 01.24.2.43.43 0 01.071.263v.375c0 .168-.064.256-.184.256a.83.83 0 01-.303-.096 3.652 3.652 0 00-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167zM21.698 16.207c-2.626 1.94-6.442 2.969-9.722 2.969-4.598 0-8.74-1.7-11.87-4.526-.247-.223-.024-.527.27-.351 3.384 1.963 7.559 3.153 11.877 3.153 2.914 0 6.114-.607 9.06-1.852.439-.2.814.287.385.607zM22.792 14.961c-.336-.43-2.22-.207-3.074-.103-.255.032-.295-.192-.063-.36 1.5-1.053 3.967-.75 4.254-.399.287.36-.08 2.826-1.485 4.007-.215.184-.423.088-.327-.151.32-.79 1.03-2.57.695-2.994z"/>
+                            </svg>
+                        </div>
+                        <div class="tech-icon" title="Git">
+                            <svg viewBox="0 0 24 24" fill="#F05032" width="35" height="35">
+                                <path d="M23.546 10.93L13.067.452a1.55 1.55 0 00-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 012.327 2.341l2.658 2.66a1.838 1.838 0 011.9 3.039 1.837 1.837 0 01-2.6 0 1.846 1.846 0 01-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348a1.848 1.848 0 010 2.6 1.844 1.844 0 01-2.609 0 1.834 1.834 0 010-2.598c.182-.18.387-.316.605-.406V8.835a1.834 1.834 0 01-.996-2.41L7.636 3.7.45 10.881a1.55 1.55 0 000 2.188l10.48 10.477a1.545 1.545 0 002.186 0l10.43-10.43a1.544 1.544 0 000-2.187"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="tech-row">
+                        <div class="tech-icon" title="Linux">
+                            <span style="font-size: 10px; font-weight: bold; color: #FCC624;">LINUX</span>
+                        </div>
+                        <div class="tech-icon" title="Kubernetes">
+                            <svg viewBox="0 0 24 24" fill="#326CE5" width="35" height="35">
+                                <path d="M10.204 14.35l.007.01-.999 2.413a5.171 5.171 0 01-2.075-2.597l2.578-.437.004.005a.44.44 0 01.485.606zm-.833-2.129a.44.44 0 00.173-.756l.002-.011L7.585 9.7a5.143 5.143 0 00-.73 3.255l2.514-.725.002-.009zm1.145-1.98a.44.44 0 00.699-.337l-.01-.02.791-2.6a5.214 5.214 0 00-3.086.992l1.596 1.963.01.002zm.986 1.82a.44.44 0 00.596.265l.005.012 2.378-.752a5.134 5.134 0 00-1.724-2.386l-1.26 2.854.005.007zm.097 1.476l-.005-.007-.784 2.38a5.152 5.152 0 002.904-1.193l-1.883-1.469-.01.003a.44.44 0 00-.222.286zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 18.591a6.591 6.591 0 110-13.182 6.591 6.591 0 010 13.182z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="tech-row">
+                        <div class="tech-icon" title="Terraform">
+                            <svg viewBox="0 0 24 24" fill="#7B42BC" width="35" height="35">
+                                <path d="M1.44 0v7.575l6.56 3.79V3.79zm7.99 11.355l6.56 3.79V7.575l-6.56-3.79zm0 8.865l6.56 3.78v-7.57l-6.56-3.79zM16.55 7.58v7.575l6.56-3.79V3.79z"/>
+                            </svg>
+                        </div>
+                        <div class="tech-icon" title="GCP">
+                            <svg viewBox="0 0 24 24" fill="#4285F4" width="35" height="35">
+                                <path d="M12.19 2.38a9.344 9.344 0 00-9.234 6.893c.053-.02-.055.013 0 0-3.875 2.551-3.922 8.11-.247 10.941l.006-.007-.007.03a6.717 6.717 0 005.305 2.442h9.762a7.31 7.31 0 005.224-2.24v-.007A7.28 7.28 0 0024 14.622c0-1.93-.741-3.676-1.949-4.985l.008-.004a9.342 9.342 0 00-9.869-7.253zM10.136 6.28l5.422.015c-.088 1.317-.678 3.554-1.902 4.357l-3.299 2.391c-.042.03-.085.058-.126.089-1.653 1.197-4.168-.09-4.168-2.455 0-2.38 1.986-4.41 4.073-4.397zm1.864 6.727c.32 0 .639.012.958.037-.638.445-1.376.956-2.12 1.495-1.645 1.195-4.164-.092-4.164-2.457v-.047c.002.014 0 .032 0 .047 0 1.14.625 2.137 1.552 2.663a3.035 3.035 0 001.576.438c.833 0 1.612-.336 2.198-.877v-.001l.001-.001c-.003 0-.003.002-.001.003zm6.012 5.42h-6.012a3.017 3.017 0 01-3.02-3.018c0-.836.341-1.593.892-2.139.004-.003.014-.01.014-.014a.058.058 0 00.009-.008c.002-.003.006-.003.009-.006.543-.495 1.254-.81 2.042-.835.033 0 .066-.002.099-.002l5.967.015a3.017 3.017 0 013.019 3.018 3.017 3.017 0 01-3.019 3.017v-.028z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="tech-row">
+                        <div class="tech-icon" title="DevOps">
+                            <span style="font-size: 8px; font-weight: bold; background: linear-gradient(135deg, #00d4ff, #0066ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DevOps</span>
+                        </div>
+                        <div class="tech-icon" title="SQL">
+                            <span style="font-size: 10px; font-weight: bold; color: #00758F;">SQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contact-info">
+            <a href="tel:9182132309" class="contact-item" style="text-decoration: none;">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                <span>9182132309</span>
+            </a>
+        </div>
+        <p class="copyright">© 2024 Lan Edu Center. All Rights Reserved. | Step Forward Into Your Future</p>
+    </footer>
+</body>
+</html>
