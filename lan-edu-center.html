@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lan Edu Center | Freshers Internship Program 2024-2026</title>
+    <title>Lan Edu Center | AWS with DevOps Internship</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-blue: #0066ff;
@@ -16,12 +18,14 @@
             --light-gray: #b8c5d6;
             --gold: #ffd700;
             --success-green: #00ff88;
+            --orange: #ff9500;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -29,7 +33,6 @@
             background: var(--deep-navy);
             color: var(--white);
             overflow-x: hidden;
-            min-height: 100vh;
         }
 
         /* Animated Background */
@@ -90,43 +93,48 @@
             100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Header */
+        /* Navigation Header */
         header {
-            padding: 20px 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            z-index: 100;
+            z-index: 1000;
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .logo-icon {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
-            animation: iconPulse 3s ease-in-out infinite;
+            font-size: 22px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
-        @keyframes iconPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); }
-            50% { box-shadow: 0 0 50px rgba(0, 212, 255, 0.6); }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
         }
 
         .logo-text h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 700;
             background: linear-gradient(90deg, var(--white), var(--accent-cyan));
             -webkit-background-clip: text;
@@ -135,38 +143,92 @@
         }
 
         .logo-text p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--light-gray);
-            letter-spacing: 1px;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-tabs a {
+            color: var(--light-gray);
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tabs a:hover,
+        .nav-tabs a.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
+        }
+
+        .nav-tabs a i {
+            font-size: 1rem;
         }
 
         .nav-cta {
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
-            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--success-green), #00cc6a);
+            padding: 12px 25px;
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
-            color: var(--white);
+            color: var(--deep-navy);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 102, 255, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-cta:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.4);
         }
 
-        /* Hero Section */
-        .hero {
-            padding: 60px 5% 80px;
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== HOME SECTION ==================== */
+        #home {
+            min-height: 100vh;
+            padding: 120px 5% 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .home-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
-            min-height: 85vh;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .hero-content {
+        .home-content {
             animation: slideInLeft 1s ease-out;
         }
 
@@ -183,7 +245,7 @@
             border-radius: 50px;
             font-size: 0.85rem;
             color: var(--accent-cyan);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             animation: glow 2s ease-in-out infinite;
         }
 
@@ -192,33 +254,37 @@
             50% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.5); }
         }
 
-        .hero h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--glow-blue);
+        .step-forward {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            font-style: italic;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
-        .hero h1 {
+        .main-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        .hero h1 .highlight {
+        .main-title .highlight {
             background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan), var(--glow-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: block;
         }
 
-        .hero h3 {
+        .main-title .careers {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .one-internship {
             font-family: 'Rajdhani', sans-serif;
             font-size: 2rem;
             font-weight: 600;
@@ -227,16 +293,23 @@
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
+        .we-provide {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
         .features-list {
             list-style: none;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .features-list li {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(77, 159, 255, 0.1);
             transition: all 0.3s ease;
         }
@@ -248,8 +321,8 @@
         }
 
         .check-icon {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
             border-radius: 50%;
             display: flex;
@@ -259,14 +332,13 @@
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
         }
 
-        .check-icon svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--white);
+        .check-icon i {
+            font-size: 12px;
+            color: var(--white);
         }
 
         .features-list span {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
         }
 
@@ -275,15 +347,16 @@
             gap: 20px;
             flex-wrap: wrap;
             align-items: center;
+            margin-top: 30px;
         }
 
         .cta-btn {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 18px 40px;
-            border-radius: 60px;
-            font-size: 1.1rem;
+            gap: 10px;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1rem;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.4s ease;
@@ -294,28 +367,36 @@
         .cta-primary {
             background: linear-gradient(135deg, var(--primary-blue), #0052cc);
             color: var(--white);
-            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.5);
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.4);
         }
 
         .cta-primary:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.6);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .phone-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phone-display i {
+            font-size: 1.5rem;
+            color: var(--success-green);
         }
 
         .phone-number {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--accent-cyan);
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
-        /* Hero Visual */
-        .hero-visual {
+        /* Home Visual - Right Side */
+        .home-visual {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             animation: slideInRight 1s ease-out;
         }
 
@@ -324,42 +405,37 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        .stairs-container {
+        .visual-container {
             position: relative;
-            width: 100%;
-            max-width: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .hand-graphic {
+        .hand-image {
             width: 100%;
-            height: auto;
+            max-width: 500px;
             filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.3));
         }
 
-        /* Tech Stack Icons */
+        /* Tech Stack Grid */
         .tech-stack {
             position: absolute;
-            right: -20px;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .tech-row {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
         .tech-icon {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -368,51 +444,374 @@
         }
 
         .tech-icon:hover {
-            transform: scale(1.15) rotate(5deg);
+            transform: scale(1.2);
             background: rgba(0, 212, 255, 0.2);
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
         }
 
         .tech-icon img {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
         }
 
         .tech-icon span {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 700;
             text-align: center;
         }
 
         @keyframes techFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-5px); }
         }
 
-        .tech-icon:nth-child(1) { animation-delay: 0s; }
-        .tech-icon:nth-child(2) { animation-delay: 0.2s; }
-        .tech-icon:nth-child(3) { animation-delay: 0.4s; }
-
-        .target-banner.top-banner {
-            margin: 20px 5% 40px;
-            animation: slideDown 0.8s ease-out;
+        /* Freshers Banner */
+        .freshers-banner {
+            position: absolute;
+            bottom: -20px;
+            right: 0;
+            text-align: right;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .freshers-banner h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--white);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .freshers-banner p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: var(--light-gray);
+        }
+
+        .freshers-banner .years {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* ==================== FEATURES SECTION ==================== */
+        #features {
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 102, 255, 0.05) 50%, transparent 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 102, 255, 0.08);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.15);
+        }
+
+        .feature-card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--light-gray);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Tech Logos Section */
+        .tech-logos-section {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .tech-logos-section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: var(--light-gray);
+        }
+
+        .tech-logos-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tech-logo-item {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-logo-item:hover {
+            transform: scale(1.1);
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .tech-logo-item i {
+            font-size: 2rem;
+        }
+
+        .tech-logo-item span {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--light-gray);
+        }
+
+        /* ==================== CONTACT SECTION ==================== */
+        #contact {
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .contact-header p {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .contact-info-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .contact-info-section h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--accent-cyan);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateX(10px);
+        }
+
+        .contact-item-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .contact-item-text h4 {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            margin-bottom: 5px;
+        }
+
+        .contact-item-text span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        /* Registration Form */
+        .registration-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .registration-form h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--gold);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--success-green), #00cc6a);
+            border: none;
+            border-radius: 50px;
+            color: var(--deep-navy);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
         }
 
         /* Target Audience Banner */
         .target-banner {
+            margin-top: 60px;
             background: linear-gradient(135deg, rgba(0, 102, 255, 0.15), rgba(0, 212, 255, 0.1));
             border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
-            margin: 60px 5%;
             position: relative;
             overflow: hidden;
         }
@@ -435,20 +834,19 @@
 
         .target-banner h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 15px;
             background: linear-gradient(90deg, var(--gold), #ffed4a, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: none;
             position: relative;
         }
 
         .target-banner h3 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: var(--light-gray);
             margin-bottom: 10px;
@@ -457,7 +855,7 @@
 
         .target-banner .years {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--accent-cyan);
             position: relative;
@@ -467,13 +865,13 @@
             display: inline-block;
             background: linear-gradient(135deg, var(--gold), #ffa500);
             color: var(--deep-navy);
-            padding: 10px 30px;
+            padding: 12px 30px;
             border-radius: 50px;
             font-weight: 700;
             font-size: 1rem;
             margin-top: 20px;
-            animation: pulse 2s ease-in-out infinite;
             position: relative;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
@@ -483,66 +881,115 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+            background: rgba(0, 0, 0, 0.3);
             padding: 40px 5%;
-            text-align: center;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
         }
 
-        .contact-info {
+        .footer-content {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .contact-item {
+        .footer-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(0, 102, 255, 0.1);
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            gap: 12px;
         }
 
-        .contact-item svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--accent-cyan);
+        .footer-logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
         }
 
-        .contact-item span {
+        .footer-logo h3 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--white);
+            font-size: 1.2rem;
+            background: linear-gradient(90deg, var(--white), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-gray);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-cyan);
+            color: var(--deep-navy);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
         }
 
         .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--light-gray);
             font-size: 0.9rem;
         }
 
-        /* Responsive */
+        /* WhatsApp Float Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5);
+            z-index: 1000;
+            animation: bounce 2s infinite;
+            text-decoration: none;
+        }
+
+        .whatsapp-float i {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Design */
         @media (max-width: 1024px) {
-            .hero {
+            .home-container {
                 grid-template-columns: 1fr;
                 text-align: center;
-                padding: 40px 5%;
             }
 
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-
-            .hero-visual {
+            .home-visual {
                 order: -1;
             }
 
-            .stairs-container {
-                max-width: 350px;
+            .main-title {
+                font-size: 2.5rem;
             }
 
             .tech-stack {
@@ -550,9 +997,15 @@
                 right: auto;
                 top: auto;
                 transform: none;
-                flex-direction: row;
-                flex-wrap: wrap;
                 justify-content: center;
+                margin-top: 20px;
+            }
+
+            .freshers-banner {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                text-align: center;
                 margin-top: 30px;
             }
 
@@ -563,42 +1016,96 @@
             .cta-section {
                 justify-content: center;
             }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
         }
 
         @media (max-width: 640px) {
-            .hero h1 {
+            header {
+                padding: 15px 4%;
+            }
+
+            .logo-text h1 {
+                font-size: 1.1rem;
+            }
+
+            .main-title {
                 font-size: 2rem;
             }
 
-            .hero h2 {
-                font-size: 1.2rem;
+            .step-forward {
+                font-size: 1.3rem;
             }
 
-            .hero h3 {
+            .one-internship {
                 font-size: 1.5rem;
             }
 
             .phone-number {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
             }
 
-            .target-banner h2 {
-                font-size: 2rem;
-            }
-
-            .target-banner .years {
+            .section-header h2 {
                 font-size: 1.8rem;
             }
 
-            .tech-icon {
-                width: 45px;
-                height: 45px;
+            .feature-card {
+                padding: 25px;
             }
 
-            .tech-icon img {
-                width: 28px;
-                height: 28px;
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
             }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 75px;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 14, 26, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            z-index: 999;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            color: var(--light-gray);
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            color: var(--white);
         }
     </style>
 </head>
@@ -617,6 +1124,7 @@
         <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
     </div>
 
+    <!-- Header with Navigation Tabs -->
     <header>
         <div class="logo">
             <div class="logo-icon">🎓</div>
@@ -625,191 +1133,465 @@
                 <p>Are You Ready to Collaborate With Us?</p>
             </div>
         </div>
-        <a href="tel:9182132309" class="nav-cta">Register Now</a>
+
+        <nav class="nav-tabs">
+            <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="#features"><i class="fas fa-star"></i> Features</a>
+            <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
+
+        <a href="tel:9182132309" class="nav-cta">
+            <i class="fas fa-phone"></i> Call Now
+        </a>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
-    <main>
-        <!-- FRESHERS Banner - Top Position for Maximum Visibility -->
-        <section class="target-banner top-banner">
-            <h2>FRESHERS</h2>
-            <h3>ANY DEGREE | ANY BRANCH</h3>
-            <div class="years">2024 • 2025 • 2026</div>
-            <span class="golden-tag">🏆 GOLDEN OPPORTUNITY - 100% PLACEMENT SUPPORT</span>
-        </section>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="#features"><i class="fas fa-star"></i> Features</a>
+        <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="tel:9182132309"><i class="fas fa-phone"></i> Call: 9182132309</a>
+    </nav>
 
-        <section class="hero">
-            <div class="hero-content">
+    <!-- ==================== HOME SECTION ==================== -->
+    <section id="home">
+        <div class="home-container">
+            <div class="home-content">
                 <span class="badge">🚀 3-Month Intensive Program</span>
-                <h2>Step Forward</h2>
-                <h1>INTO MULTIPLE <span class="highlight">CAREERS</span></h1>
-                <h3>One Internship</h3>
-                
+                <p class="step-forward">STEP FORWARD</p>
+                <h1 class="main-title">
+                    INTO MULTIPLE<br>
+                    <span class="careers">CAREERS</span>
+                </h1>
+                <p class="one-internship">One Internship</p>
+
+                <p class="we-provide">We Provide</p>
                 <ul class="features-list">
                     <li>
-                        <span class="check-icon">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </span>
+                        <span class="check-icon"><i class="fas fa-check"></i></span>
                         <span>100% Practical & Job-Oriented Training</span>
                     </li>
                     <li>
-                        <span class="check-icon">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </span>
+                        <span class="check-icon"><i class="fas fa-check"></i></span>
                         <span>Live Projects with Real-time Use Cases</span>
                     </li>
                     <li>
-                        <span class="check-icon">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </span>
+                        <span class="check-icon"><i class="fas fa-check"></i></span>
                         <span>Internship Completion Certificate</span>
                     </li>
                     <li>
-                        <span class="check-icon">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </span>
+                        <span class="check-icon"><i class="fas fa-check"></i></span>
                         <span>Resume Optimization & Interview Readiness</span>
                     </li>
                     <li>
-                        <span class="check-icon">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                        </span>
+                        <span class="check-icon"><i class="fas fa-check"></i></span>
                         <span>Placement Enablement with IT Partner Network</span>
                     </li>
                 </ul>
 
+                <p style="color: var(--light-gray); margin-bottom: 15px; font-size: 0.9rem;">For Registration & More Information</p>
+                
                 <div class="cta-section">
-                    <a href="tel:9182132309" class="cta-btn cta-primary">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                        </svg>
-                        Call Now
+                    <a href="#contact" class="cta-btn cta-primary">
+                        <i class="fas fa-rocket"></i> Register Now
                     </a>
-                    <span class="phone-number">📞 9182132309</span>
+                    <div class="phone-display">
+                        <i class="fas fa-phone-alt"></i>
+                        <span class="phone-number">9182132309</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="hero-visual">
-                <div class="stairs-container">
-                    <svg class="hand-graphic" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Hand Shape -->
+            <div class="home-visual">
+                <div class="visual-container">
+                    <!-- SVG Hand with Stairs -->
+                    <svg class="hand-image" viewBox="0 0 500 600" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="handGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#e0e8f0;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#d0d8e0;stop-opacity:1" />
                             </linearGradient>
-                            <linearGradient id="stairGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#4d9fff;stop-opacity:0.3" />
-                                <stop offset="100%" style="stop-color:#0066ff;stop-opacity:0.5" />
+                            <linearGradient id="stairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4d9fff;stop-opacity:0.4" />
+                                <stop offset="100%" style="stop-color:#0066ff;stop-opacity:0.6" />
                             </linearGradient>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                <feMerge>
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
+                            <filter id="shadow">
+                                <feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#00d4ff" flood-opacity="0.3"/>
                             </filter>
                         </defs>
                         
-                        <!-- Main Hand -->
-                        <path d="M100 100 L120 80 L350 200 L350 450 L100 450 Z" fill="url(#handGradient)" opacity="0.95"/>
+                        <!-- Main Hand Shape -->
+                        <path d="M120 80 L180 50 L420 180 L420 520 L120 520 Z" fill="url(#handGrad)" filter="url(#shadow)"/>
                         
                         <!-- Thumb -->
-                        <ellipse cx="90" cy="280" rx="40" ry="100" fill="url(#handGradient)" transform="rotate(-20 90 280)"/>
+                        <ellipse cx="100" cy="320" rx="50" ry="120" fill="url(#handGrad)" transform="rotate(-15 100 320)"/>
                         
-                        <!-- Fingers suggestion -->
-                        <path d="M350 200 Q380 180 360 150 L340 170 Z" fill="url(#handGradient)"/>
+                        <!-- Fingers hint -->
+                        <path d="M420 180 Q460 150 440 110 L410 140 Z" fill="url(#handGrad)"/>
                         
-                        <!-- Stairs on palm -->
-                        <g filter="url(#glow)">
-                            <rect x="150" y="350" width="120" height="25" fill="url(#stairGradient)" rx="3"/>
-                            <rect x="170" y="310" width="100" height="25" fill="url(#stairGradient)" rx="3"/>
-                            <rect x="190" y="270" width="80" height="25" fill="url(#stairGradient)" rx="3"/>
-                            <rect x="210" y="230" width="60" height="25" fill="url(#stairGradient)" rx="3"/>
+                        <!-- Stairs -->
+                        <g>
+                            <rect x="180" y="420" width="150" height="30" fill="url(#stairGrad)" rx="5"/>
+                            <rect x="200" y="370" width="130" height="30" fill="url(#stairGrad)" rx="5"/>
+                            <rect x="220" y="320" width="110" height="30" fill="url(#stairGrad)" rx="5"/>
+                            <rect x="240" y="270" width="90" height="30" fill="url(#stairGrad)" rx="5"/>
                         </g>
                         
-                        <!-- Person silhouette on stairs -->
+                        <!-- Person silhouettes -->
                         <g fill="#0a0e1a">
-                            <!-- Person 1 - top -->
-                            <circle cx="240" cy="210" r="12"/>
-                            <path d="M228 225 L252 225 L248 270 L232 270 Z"/>
+                            <!-- Person on top -->
+                            <circle cx="285" cy="245" r="15"/>
+                            <path d="M270 265 L300 265 L295 320 L275 320 Z"/>
                             
-                            <!-- Person 2 - middle -->
-                            <circle cx="200" cy="250" r="10" opacity="0.6"/>
-                            <path d="M190 262 L210 262 L207 295 L193 295 Z" opacity="0.6"/>
+                            <!-- Person climbing -->
+                            <circle cx="245" cy="295" r="12" opacity="0.6"/>
+                            <path d="M235 310 L255 310 L252 355 L238 355 Z" opacity="0.6"/>
                         </g>
                     </svg>
+
+                    <!-- Tech Stack Icons -->
+                    <div class="tech-stack">
+                        <div class="tech-icon" title="Docker" style="animation-delay: 0s;">
+                            <span style="color: #2496ED; font-size: 0.7rem; font-weight: bold;">🐳</span>
+                        </div>
+                        <div class="tech-icon" title="Jenkins" style="animation-delay: 0.2s;">
+                            <span style="color: #D24939; font-size: 0.6rem; font-weight: bold;">Jenkins</span>
+                        </div>
+                        <div class="tech-icon" title="AWS" style="animation-delay: 0.4s;">
+                            <span style="color: #FF9900; font-size: 0.7rem; font-weight: bold;">aws</span>
+                        </div>
+                        <div class="tech-icon" title="Git" style="animation-delay: 0.6s;">
+                            <span style="color: #F05032; font-size: 0.7rem; font-weight: bold;">git</span>
+                        </div>
+                        <div class="tech-icon" title="Linux" style="animation-delay: 0.8s;">
+                            <span style="color: #FCC624; font-size: 0.6rem; font-weight: bold;">LINUX</span>
+                        </div>
+                        <div class="tech-icon" title="Kubernetes" style="animation-delay: 1s;">
+                            <span style="color: #326CE5; font-size: 0.55rem; font-weight: bold;">K8s</span>
+                        </div>
+                        <div class="tech-icon" title="Terraform" style="animation-delay: 1.2s;">
+                            <span style="color: #7B42BC; font-size: 0.5rem; font-weight: bold;">Terraform</span>
+                        </div>
+                        <div class="tech-icon" title="GCP" style="animation-delay: 1.4s;">
+                            <span style="color: #4285F4; font-size: 0.7rem; font-weight: bold;">GCP</span>
+                        </div>
+                        <div class="tech-icon" title="AI" style="animation-delay: 1.6s;">
+                            <span style="color: #00d4ff; font-size: 0.7rem; font-weight: bold;">AI</span>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="tech-stack">
-                    <div class="tech-row">
-                        <div class="tech-icon" title="Docker">
-                            <svg viewBox="0 0 24 24" fill="#2496ED" width="35" height="35">
-                                <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.185.185v1.888c0 .102.084.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/>
-                            </svg>
-                        </div>
-                        <div class="tech-icon" title="Jenkins">
-                            <svg viewBox="0 0 24 24" fill="#D24939" width="35" height="35">
-                                <path d="M4.875 14.344c-.156.156-.41.156-.566 0a.4.4 0 010-.566c.156-.156.41-.156.566 0 .156.156.156.41 0 .566m.879-.809a.797.797 0 01-1.125-1.129.797.797 0 011.129 1.13m.058-2.426c.094 0 .188.035.262.109.144.144.144.379 0 .523a.37.37 0 01-.523 0 .37.37 0 010-.523.37.37 0 01.261-.11m11.473 7.36c0 2.652-2.152 4.804-4.805 4.804-2.652 0-4.8-2.152-4.8-4.805 0-2.652 2.148-4.8 4.8-4.8 2.653 0 4.805 2.148 4.805 4.8M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="tech-row">
-                        <div class="tech-icon" title="AWS">
-                            <svg viewBox="0 0 24 24" fill="#FF9900" width="35" height="35">
-                                <path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 01-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 01-.287-.375 6.18 6.18 0 01-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 01-.28.104.488.488 0 01-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 01.224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 011.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 00-.735-.136 6.02 6.02 0 00-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 01-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 01.32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 01.311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 01-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 01-.303.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 01-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 00.415-.758.777.777 0 00-.215-.559c-.144-.151-.416-.287-.807-.414l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 01-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 01.24.2.43.43 0 01.071.263v.375c0 .168-.064.256-.184.256a.83.83 0 01-.303-.096 3.652 3.652 0 00-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167zM21.698 16.207c-2.626 1.94-6.442 2.969-9.722 2.969-4.598 0-8.74-1.7-11.87-4.526-.247-.223-.024-.527.27-.351 3.384 1.963 7.559 3.153 11.877 3.153 2.914 0 6.114-.607 9.06-1.852.439-.2.814.287.385.607zM22.792 14.961c-.336-.43-2.22-.207-3.074-.103-.255.032-.295-.192-.063-.36 1.5-1.053 3.967-.75 4.254-.399.287.36-.08 2.826-1.485 4.007-.215.184-.423.088-.327-.151.32-.79 1.03-2.57.695-2.994z"/>
-                            </svg>
-                        </div>
-                        <div class="tech-icon" title="Git">
-                            <svg viewBox="0 0 24 24" fill="#F05032" width="35" height="35">
-                                <path d="M23.546 10.93L13.067.452a1.55 1.55 0 00-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 012.327 2.341l2.658 2.66a1.838 1.838 0 011.9 3.039 1.837 1.837 0 01-2.6 0 1.846 1.846 0 01-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348a1.848 1.848 0 010 2.6 1.844 1.844 0 01-2.609 0 1.834 1.834 0 010-2.598c.182-.18.387-.316.605-.406V8.835a1.834 1.834 0 01-.996-2.41L7.636 3.7.45 10.881a1.55 1.55 0 000 2.188l10.48 10.477a1.545 1.545 0 002.186 0l10.43-10.43a1.544 1.544 0 000-2.187"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="tech-row">
-                        <div class="tech-icon" title="Linux">
-                            <span style="font-size: 10px; font-weight: bold; color: #FCC624;">LINUX</span>
-                        </div>
-                        <div class="tech-icon" title="Kubernetes">
-                            <svg viewBox="0 0 24 24" fill="#326CE5" width="35" height="35">
-                                <path d="M10.204 14.35l.007.01-.999 2.413a5.171 5.171 0 01-2.075-2.597l2.578-.437.004.005a.44.44 0 01.485.606zm-.833-2.129a.44.44 0 00.173-.756l.002-.011L7.585 9.7a5.143 5.143 0 00-.73 3.255l2.514-.725.002-.009zm1.145-1.98a.44.44 0 00.699-.337l-.01-.02.791-2.6a5.214 5.214 0 00-3.086.992l1.596 1.963.01.002zm.986 1.82a.44.44 0 00.596.265l.005.012 2.378-.752a5.134 5.134 0 00-1.724-2.386l-1.26 2.854.005.007zm.097 1.476l-.005-.007-.784 2.38a5.152 5.152 0 002.904-1.193l-1.883-1.469-.01.003a.44.44 0 00-.222.286zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 18.591a6.591 6.591 0 110-13.182 6.591 6.591 0 010 13.182z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="tech-row">
-                        <div class="tech-icon" title="Terraform">
-                            <svg viewBox="0 0 24 24" fill="#7B42BC" width="35" height="35">
-                                <path d="M1.44 0v7.575l6.56 3.79V3.79zm7.99 11.355l6.56 3.79V7.575l-6.56-3.79zm0 8.865l6.56 3.78v-7.57l-6.56-3.79zM16.55 7.58v7.575l6.56-3.79V3.79z"/>
-                            </svg>
-                        </div>
-                        <div class="tech-icon" title="GCP">
-                            <svg viewBox="0 0 24 24" fill="#4285F4" width="35" height="35">
-                                <path d="M12.19 2.38a9.344 9.344 0 00-9.234 6.893c.053-.02-.055.013 0 0-3.875 2.551-3.922 8.11-.247 10.941l.006-.007-.007.03a6.717 6.717 0 005.305 2.442h9.762a7.31 7.31 0 005.224-2.24v-.007A7.28 7.28 0 0024 14.622c0-1.93-.741-3.676-1.949-4.985l.008-.004a9.342 9.342 0 00-9.869-7.253zM10.136 6.28l5.422.015c-.088 1.317-.678 3.554-1.902 4.357l-3.299 2.391c-.042.03-.085.058-.126.089-1.653 1.197-4.168-.09-4.168-2.455 0-2.38 1.986-4.41 4.073-4.397zm1.864 6.727c.32 0 .639.012.958.037-.638.445-1.376.956-2.12 1.495-1.645 1.195-4.164-.092-4.164-2.457v-.047c.002.014 0 .032 0 .047 0 1.14.625 2.137 1.552 2.663a3.035 3.035 0 001.576.438c.833 0 1.612-.336 2.198-.877v-.001l.001-.001c-.003 0-.003.002-.001.003zm6.012 5.42h-6.012a3.017 3.017 0 01-3.02-3.018c0-.836.341-1.593.892-2.139.004-.003.014-.01.014-.014a.058.058 0 00.009-.008c.002-.003.006-.003.009-.006.543-.495 1.254-.81 2.042-.835.033 0 .066-.002.099-.002l5.967.015a3.017 3.017 0 013.019 3.018 3.017 3.017 0 01-3.019 3.017v-.028z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="tech-row">
-                        <div class="tech-icon" title="DevOps">
-                            <span style="font-size: 8px; font-weight: bold; background: linear-gradient(135deg, #00d4ff, #0066ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DevOps</span>
-                        </div>
-                        <div class="tech-icon" title="SQL">
-                            <span style="font-size: 10px; font-weight: bold; color: #00758F;">SQL</span>
-                        </div>
-                    </div>
+
+                <!-- Freshers Banner -->
+                <div class="freshers-banner">
+                    <h2>FRESHERS</h2>
+                    <p>ANY DEGREE | ANY BRANCH</p>
+                    <p class="years">2024 - 2025 - 2026</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="contact-info">
-            <a href="tel:9182132309" class="contact-item" style="text-decoration: none;">
-                <svg viewBox="0 0 24 24">
-                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                </svg>
-                <span>9182132309</span>
-            </a>
         </div>
-        <p class="copyright">© 2024 Lan Edu Center. All Rights Reserved. | Step Forward Into Your Future</p>
+    </section>
+
+    <!-- ==================== FEATURES SECTION ==================== -->
+    <section id="features">
+        <div class="section-header">
+            <h2>🌟 Program <span class="highlight">Highlights</span></h2>
+            <p>Everything you need to kickstart your DevOps career</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-card-icon">💻</div>
+                <h3>100% Practical Training</h3>
+                <p>Job-oriented hands-on training with real-world scenarios. No boring theory - just practical skills that employers want!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">🚀</div>
+                <h3>Live Projects</h3>
+                <p>Work on real-time use cases and industry projects. Build a portfolio that stands out to recruiters.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">🏆</div>
+                <h3>Internship Certificate</h3>
+                <p>Receive an official internship completion certificate to boost your resume and LinkedIn profile.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">📝</div>
+                <h3>Resume Optimization</h3>
+                <p>Get your resume professionally optimized and be interview-ready with mock sessions and tips.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">🤝</div>
+                <h3>Placement Support</h3>
+                <p>Placement enablement with our extensive IT partner network. Direct access to job opportunities!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">👨‍🏫</div>
+                <h3>Expert Mentorship</h3>
+                <p>Learn from industry experts with years of experience in AWS and DevOps technologies.</p>
+            </div>
+        </div>
+
+        <!-- Tech Logos -->
+        <div class="tech-logos-section">
+            <h3>Technologies You'll Learn</h3>
+            <div class="tech-logos-grid">
+                <div class="tech-logo-item">
+                    <i class="fab fa-docker" style="color: #2496ED;"></i>
+                    <span>Docker</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fab fa-jenkins" style="color: #D24939;"></i>
+                    <span>Jenkins</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fab fa-aws" style="color: #FF9900;"></i>
+                    <span>AWS</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fab fa-git-alt" style="color: #F05032;"></i>
+                    <span>Git</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fab fa-linux" style="color: #FCC624;"></i>
+                    <span>Linux</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fas fa-dharmachakra" style="color: #326CE5;"></i>
+                    <span>Kubernetes</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fab fa-google" style="color: #4285F4;"></i>
+                    <span>GCP</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fab fa-python" style="color: #3776AB;"></i>
+                    <span>Python</span>
+                </div>
+                <div class="tech-logo-item">
+                    <i class="fas fa-database" style="color: #00758F;"></i>
+                    <span>SQL</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h2>📞 Get In Touch</h2>
+                <p>Register now and kickstart your DevOps career!</p>
+            </div>
+
+            <div class="contact-content">
+                <!-- Contact Info -->
+                <div class="contact-info-section">
+                    <h3>Contact Information</h3>
+                    
+                    <a href="tel:9182132309" style="text-decoration: none;">
+                        <div class="contact-item">
+                            <div class="contact-item-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-item-text">
+                                <h4>Call Us</h4>
+                                <span>9182132309</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/919182132309" target="_blank" style="text-decoration: none;">
+                        <div class="contact-item">
+                            <div class="contact-item-icon" style="background: linear-gradient(135deg, #25d366, #128c7e);">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-item-text">
+                                <h4>WhatsApp</h4>
+                                <span>9182132309</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="mailto:info@laneducenter.com" style="text-decoration: none;">
+                        <div class="contact-item">
+                            <div class="contact-item-icon" style="background: linear-gradient(135deg, #ea4335, #c5221f);">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-item-text">
+                                <h4>Email</h4>
+                                <span>info@laneducenter.com</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="registration-form">
+                    <h3>🎯 Quick Registration</h3>
+                    <form id="registrationForm">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" name="name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label>Qualification</label>
+                            <select name="qualification">
+                                <option value="">Select your qualification</option>
+                                <option value="B.Tech">B.Tech / B.E</option>
+                                <option value="BCA">BCA</option>
+                                <option value="MCA">MCA</option>
+                                <option value="BSc">B.Sc</option>
+                                <option value="MSc">M.Sc</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Submit & Get Callback
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Target Audience Banner -->
+            <div class="target-banner">
+                <h2>🎓 FRESHERS</h2>
+                <h3>ANY DEGREE | ANY BRANCH</h3>
+                <div class="years">2024 • 2025 • 2026</div>
+                <span class="golden-tag">🏆 100% PLACEMENT SUPPORT - GOLDEN OPPORTUNITY</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-icon">🎓</div>
+                <h3>Lan Edu Center</h3>
+            </div>
+
+            <div class="social-links">
+                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>© 2025 Lan Edu Center. All Rights Reserved. | Step Forward Into Your Future</p>
+        </div>
     </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/919182132309?text=Hi%2C%20I%27m%20interested%20in%20the%20DevOps%20Internship%20Program" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Active tab highlighting on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-tabs a, .mobile-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu
+                    document.getElementById('mobileNav').classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobileNav').classList.toggle('active');
+        }
+
+        // Form submission - WhatsApp redirect
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = this.querySelector('input[name="name"]').value;
+            const phone = this.querySelector('input[name="phone"]').value;
+            const email = this.querySelector('input[name="email"]').value;
+            const qualification = this.querySelector('select[name="qualification"]').value;
+            
+            const message = `*New Registration Request*%0A%0A` +
+                `👤 Name: ${name}%0A` +
+                `📱 Phone: ${phone}%0A` +
+                `📧 Email: ${email || 'Not provided'}%0A` +
+                `🎓 Qualification: ${qualification || 'Not specified'}%0A%0A` +
+                `I'm interested in the DevOps Internship Program!`;
+            
+            window.open(`https://wa.me/919182132309?text=${message}`, '_blank');
+            
+            alert('Thank you for your interest! Redirecting to WhatsApp...');
+            this.reset();
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .contact-item, .tech-logo-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
