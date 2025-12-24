@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS EC2 Instance Configuration Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #232f3e 0%, #1a252f 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .aws-logo {
+            width: 50px;
+            height: 50px;
+            background: #ff9900;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .header p {
+            color: #ff9900;
+            font-size: 1.1rem;
+        }
+
+        .requirements {
+            background: linear-gradient(135deg, #ff9900, #ffad33);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            color: #232f3e;
+        }
+
+        .requirements h2 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .req-item {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .req-item .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #232f3e;
+        }
+
+        .req-item .label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: #232f3e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff9900;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #232f3e;
+            color: white;
+            font-weight: 600;
+        }
+
+        th:first-child { border-radius: 8px 0 0 0; }
+        th:last-child { border-radius: 0 8px 0 0; }
+
+        tr:hover { background: #fff8e6; }
+
+        .highlight-row {
+            background: #fff3cd !important;
+            font-weight: 600;
+        }
+
+        .price {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .storage-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .storage-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff9900;
+        }
+
+        .storage-item h4 {
+            color: #232f3e;
+            margin-bottom: 8px;
+        }
+
+        .storage-item .price { font-size: 1.3rem; }
+
+        .storage-item .note {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            padding: 12px 15px;
+            margin: 10px 0;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .savings {
+            background: #28a745;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #232f3e, #37475a);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            color: white;
+        }
+
+        .recommendation h2 {
+            color: #ff9900;
+            border-bottom: none;
+            margin-bottom: 20px;
+        }
+
+        .config-box {
+            background: #1a252f;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        .config-box .line {
+            padding: 5px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .config-box .key { color: #ff9900; }
+        .config-box .value { color: #7fdbff; }
+
+        .cost-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .cost-item {
+            background: rgba(255,153,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #ff9900;
+        }
+
+        .cost-item .label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .cost-item .amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff9900;
+        }
+
+        .suse-info {
+            background: #f0fff4;
+            border: 2px solid #73ba25;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .suse-info h4 {
+            color: #73ba25;
+            margin-bottom: 10px;
+        }
+
+        .suse-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .suse-option {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-paid { background: #ffc107; color: #333; }
+        .badge-free { background: #28a745; color: white; }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            th, td { padding: 8px 10px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <div class="aws-logo">AWS</div>
+                EC2 Instance Configuration
+            </h1>
+            <p>Best Service at Optimal Cost</p>
+        </div>
+
+        <div class="requirements">
+            <h2>📋 Server Requirements</h2>
+            <div class="req-grid">
+                <div class="req-item">
+                    <div class="value">35 GB</div>
+                    <div class="label">RAM</div>
+                </div>
+                <div class="req-item">
+                    <div class="value">4 Cores</div>
+                    <div class="label">CPUs</div>
+                </div>
+                <div class="req-item">
+                    <div class="value">250 GB</div>
+                    <div class="label">HDD Storage</div>
+                </div>
+                <div class="req-item">
+                    <div class="value">SUSE</div>
+                    <div class="label">Linux OS</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💻 Recommended Instance Types</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Instance Type</th>
+                        <th>vCPUs</th>
+                        <th>RAM</th>
+                        <th>Monthly Cost</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td><strong>r6i.xlarge</strong></td>
+                        <td>4</td>
+                        <td>32 GB</td>
+                        <td class="price">~$145/month</td>
+                        <td>Memory optimized, closest match ⭐</td>
+                    </tr>
+                    <tr>
+                        <td>r5.xlarge</td>
+                        <td>4</td>
+                        <td>32 GB</td>
+                        <td class="price">~$135/month</td>
+                        <td>Good cost-performance ratio</td>
+                    </tr>
+                    <tr>
+                        <td>m6i.2xlarge</td>
+                        <td>8</td>
+                        <td>32 GB</td>
+                        <td class="price">~$170/month</td>
+                        <td>General purpose, extra CPU</td>
+                    </tr>
+                    <tr>
+                        <td>r6i.2xlarge</td>
+                        <td>8</td>
+                        <td>64 GB</td>
+                        <td class="price">~$290/month</td>
+                        <td>If more RAM needed in future</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>💾 Storage Options (250GB)</h2>
+            <div class="storage-options">
+                <div class="storage-item">
+                    <h4>gp3 EBS Volume (SSD)</h4>
+                    <div class="price">~$20/month</div>
+                    <div class="note">✅ Faster performance, recommended</div>
+                </div>
+                <div class="storage-item">
+                    <h4>st1 HDD Volume</h4>
+                    <div class="price">~$11/month</div>
+                    <div class="note">💰 Cheaper but slower</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🐧 SUSE Linux Options</h2>
+            <div class="suse-info">
+                <h4>Operating System Choices</h4>
+                <div class="suse-options">
+                    <div class="suse-option">
+                        <strong>SUSE Linux Enterprise Server (SLES)</strong>
+                        <span class="badge badge-paid">PAID</span>
+                        <p style="margin-top:10px; color:#666;">Additional licensing: ~$0.05-0.15/hour<br>Enterprise support included</p>
+                    </div>
+                    <div class="suse-option">
+                        <strong>openSUSE</strong>
+                        <span class="badge badge-free">FREE</span>
+                        <p style="margin-top:10px; color:#666;">No licensing cost<br>Community support only</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💡 Cost Optimization Tips</h2>
+            <ul class="tips-list">
+                <li>
+                    <strong>Reserved Instances</strong> - 1-year commitment
+                    <span class="savings">30-40% Savings</span>
+                </li>
+                <li>
+                    <strong>Spot Instances</strong> - For non-critical workloads
+                    <span class="savings">60-90% Savings</span>
+                </li>
+                <li>
+                    <strong>Savings Plans</strong> - Flexible discounts for consistent usage
+                    <span class="savings">Up to 72% Savings</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="recommendation">
+            <h2>🎯 Final Recommendation (Production Workload)</h2>
+            
+            <div class="config-box">
+                <div class="line">
+                    <span class="key">Instance:</span>
+                    <span class="value">r6i.xlarge (4 vCPU, 32GB RAM)</span>
+                </div>
+                <div class="line">
+                    <span class="key">Storage:</span>
+                    <span class="value">250GB gp3 EBS</span>
+                </div>
+                <div class="line">
+                    <span class="key">OS:</span>
+                    <span class="value">SUSE Linux Enterprise Server</span>
+                </div>
+            </div>
+
+            <div class="cost-summary">
+                <div class="cost-item">
+                    <div class="label">On-Demand</div>
+                    <div class="amount">$180-200</div>
+                    <div class="label">/month</div>
+                </div>
+                <div class="cost-item">
+                    <div class="label">With Reserved Instance</div>
+                    <div class="amount">$120-140</div>
+                    <div class="label">/month</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📧 For queries, contact your cloud team</p>
+            <p style="margin-top:10px;">Generated: December 2025</p>
+        </div>
+    </div>
+</body>
+</html>
