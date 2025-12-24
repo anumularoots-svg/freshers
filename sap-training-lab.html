@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Basis Training Lab - AWS Infrastructure Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .logo-sap { background: linear-gradient(135deg, #0070f2, #00a1e0); }
+        .logo-aws { background: linear-gradient(135deg, #ff9900, #ffad33); color: #232f3e; }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #a0c4ff;
+            margin-bottom: 20px;
+        }
+
+        .batch-info {
+            display: inline-flex;
+            gap: 30px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            margin-top: 20px;
+        }
+
+        .batch-item {
+            text-align: center;
+        }
+
+        .batch-item .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff9900;
+        }
+
+        .batch-item .label {
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        /* Navigation */
+        nav {
+            background: #1a1a2e;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: #a0c4ff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: #ff9900;
+            color: #1a1a2e;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Section Styles */
+        section {
+            margin: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(145deg, #1e1e2e, #2a2a3e);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            border: 1px solid #333;
+        }
+
+        .card h3 {
+            color: #ff9900;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p, .card li {
+            color: #ccc;
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            background: linear-gradient(145deg, #0d1b2a, #1b263b);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 2px solid #ff9900;
+        }
+
+        .arch-title {
+            text-align: center;
+            color: #ff9900;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .arch-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .arch-step {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #ff9900;
+        }
+
+        .arch-step h4 {
+            color: #00a1e0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .batch-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .batch-box {
+            background: linear-gradient(145deg, #16213e, #1a1a2e);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #333;
+            transition: all 0.3s;
+        }
+
+        .batch-box:hover {
+            border-color: #ff9900;
+            transform: translateY(-5px);
+        }
+
+        .batch-box h5 {
+            color: #ff9900;
+            margin-bottom: 10px;
+        }
+
+        .batch-box .time {
+            color: #00a1e0;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .vm-count {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .vm-icon {
+            width: 25px;
+            height: 25px;
+            background: #28a745;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1e1e2e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background: linear-gradient(135deg, #ff9900, #ffad33);
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        td {
+            color: #ccc;
+        }
+
+        tr:hover td {
+            background: rgba(255,153,0,0.1);
+        }
+
+        .highlight {
+            background: rgba(40,167,69,0.2) !important;
+        }
+
+        .price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .price-high {
+            color: #dc3545;
+        }
+
+        /* Cost Comparison */
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .cost-card {
+            background: linear-gradient(145deg, #1e1e2e, #2a2a3e);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid #333;
+            transition: all 0.3s;
+        }
+
+        .cost-card.recommended {
+            border-color: #28a745;
+            background: linear-gradient(145deg, #1a2e1a, #2a3e2a);
+        }
+
+        .cost-card h4 {
+            color: #ff9900;
+            margin-bottom: 15px;
+        }
+
+        .cost-card .amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 15px 0;
+        }
+
+        .cost-card .per-student {
+            color: #00a1e0;
+            font-size: 1.1rem;
+        }
+
+        .cost-card ul {
+            list-style: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .cost-card li {
+            padding: 8px 0;
+            color: #aaa;
+            border-bottom: 1px solid #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .badge-best {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-good {
+            background: #17a2b8;
+            color: white;
+        }
+
+        /* Steps */
+        .steps-container {
+            margin: 30px 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            margin: 25px 0;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff9900, #ffad33);
+            color: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 3px solid #ff9900;
+        }
+
+        .step-content h4 {
+            color: #00a1e0;
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            color: #aaa;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+
+        .code-block pre {
+            color: #c9d1d9;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block .comment {
+            color: #8b949e;
+        }
+
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+
+        .code-block .string {
+            color: #a5d6ff;
+        }
+
+        .code-block .variable {
+            color: #ffa657;
+        }
+
+        /* Schedule Table */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .schedule-card {
+            background: linear-gradient(145deg, #1e1e2e, #16213e);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border-top: 4px solid;
+        }
+
+        .schedule-card.batch1 { border-color: #ff6b6b; }
+        .schedule-card.batch2 { border-color: #4ecdc4; }
+        .schedule-card.batch3 { border-color: #ffe66d; }
+
+        .schedule-card h4 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .time-slot {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .time-slot .time {
+            color: #ff9900;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .time-slot .label {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* Tips List */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            background: linear-gradient(145deg, #1e2a1e, #2a3e2a);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #28a745;
+        }
+
+        .tip-card h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .tip-card p {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+
+        .savings-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* Final Recommendation */
+        .final-recommendation {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 3px solid #ff9900;
+            text-align: center;
+        }
+
+        .final-recommendation h2 {
+            color: #ff9900;
+            margin-bottom: 30px;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .rec-item {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .rec-item .label {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .rec-item .value {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .total-cost {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .total-cost h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .total-cost .amount {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .total-cost .per-student {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0d0d0d;
+            color: #666;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .batch-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .batch-grid, .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                flex-direction: column;
+            }
+
+            nav ul {
+                gap: 5px;
+            }
+
+            nav a {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card, .arch-step, .cost-card {
+            animation: fadeInUp 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo logo-sap">SAP</div>
+                <div class="logo logo-aws">AWS</div>
+            </div>
+            <h1>SAP Basis Training Lab</h1>
+            <p class="subtitle">AWS Infrastructure - Best Practices & Cost Optimization</p>
+            
+            <div class="batch-info">
+                <div class="batch-item">
+                    <div class="number">3</div>
+                    <div class="label">Batches</div>
+                </div>
+                <div class="batch-item">
+                    <div class="number">20</div>
+                    <div class="label">Students/Batch</div>
+                </div>
+                <div class="batch-item">
+                    <div class="number">60</div>
+                    <div class="label">Total Students</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#vm-config">VM Config</a></li>
+            <li><a href="#batch-schedule">Schedule</a></li>
+            <li><a href="#cost">Cost Analysis</a></li>
+            <li><a href="#implementation">Implementation</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Problem Section -->
+        <section id="problem">
+            <div class="section-title">
+                <h2>🎯 Problem vs Solution</h2>
+                <p>Manual work eliminate chesi automation tho efficiency improve cheydam</p>
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>❌ Manual Approach</th>
+                                <th>✅ Automated Approach</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>VM Creation</strong></td>
+                                <td class="price-high">60 VMs manually create - 2-3 days work</td>
+                                <td class="price">One command - 5 minutes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SAP Installation</strong></td>
+                                <td class="price-high">Each VM lo install - weeks</td>
+                                <td class="price">Pre-built AMI - instant</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Start/Stop</strong></td>
+                                <td class="price-high">Daily manual work</td>
+                                <td class="price">Scheduled automation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost Tracking</strong></td>
+                                <td class="price-high">Complex, error-prone</td>
+                                <td class="price">Tags & Reports - automatic</td>
+                            </tr>
+                            <tr>
+                                <td><strong>New Batch Setup</strong></td>
+                                <td class="price-high">Repeat entire process</td>
+                                <td class="price">Clone from template</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Monthly Time Spent</strong></td>
+                                <td class="price-high">40-50 hours</td>
+                                <td class="price">2-3 hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture">
+            <div class="section-title">
+                <h2>🏗️ Recommended Architecture</h2>
+                <p>3 Batches ki optimized infrastructure design</p>
+            </div>
+
+            <div class="architecture">
+                <h3 class="arch-title">SAP Training Lab Architecture</h3>
+                
+                <div class="arch-flow">
+                    <!-- Step 1: Master Image -->
+                    <div class="arch-step">
+                        <h4>📦 Step 1: Golden AMI (One-Time Setup)</h4>
+                        <p style="color:#aaa; margin-bottom:15px;">Complete SAP environment tho single master image create cheyandi</p>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px;">
+                            <div style="background:#0d1b2a; padding:15px; border-radius:10px; text-align:center;">
+                                <div style="color:#ff9900; font-weight:bold;">SAP NetWeaver</div>
+                                <div style="color:#666; font-size:0.85rem;">7.5 / S4HANA</div>
+                            </div>
+                            <div style="background:#0d1b2a; padding:15px; border-radius:10px; text-align:center;">
+                                <div style="color:#ff9900; font-weight:bold;">Database</div>
+                                <div style="color:#666; font-size:0.85rem;">HANA / MaxDB</div>
+                            </div>
+                            <div style="background:#0d1b2a; padding:15px; border-radius:10px; text-align:center;">
+                                <div style="color:#ff9900; font-weight:bold;">SAP GUI</div>
+                                <div style="color:#666; font-size:0.85rem;">Pre-configured</div>
+                            </div>
+                            <div style="background:#0d1b2a; padding:15px; border-radius:10px; text-align:center;">
+                                <div style="color:#ff9900; font-weight:bold;">Training Data</div>
+                                <div style="color:#666; font-size:0.85rem;">Sample clients</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Batch Setup -->
+                    <div class="arch-step">
+                        <h4>👥 Step 2: Batch-wise VM Deployment</h4>
+                        <p style="color:#aaa; margin-bottom:15px;">Each batch ki separate VMs with different schedules</p>
+                        
+                        <div class="batch-grid">
+                            <div class="batch-box">
+                                <h5>🔴 Batch 1 - Morning</h5>
+                                <div class="time">6:00 AM - 10:00 AM</div>
+                                <p style="color:#888; font-size:0.9rem;">20 Students</p>
+                                <div class="vm-count">
+                                    <div class="vm-icon">S1</div>
+                                    <div class="vm-icon">S2</div>
+                                    <div class="vm-icon">S3</div>
+                                    <div class="vm-icon">...</div>
+                                    <div class="vm-icon">S20</div>
+                                </div>
+                            </div>
+                            <div class="batch-box">
+                                <h5>🟢 Batch 2 - Afternoon</h5>
+                                <div class="time">11:00 AM - 3:00 PM</div>
+                                <p style="color:#888; font-size:0.9rem;">20 Students</p>
+                                <div class="vm-count">
+                                    <div class="vm-icon">S1</div>
+                                    <div class="vm-icon">S2</div>
+                                    <div class="vm-icon">S3</div>
+                                    <div class="vm-icon">...</div>
+                                    <div class="vm-icon">S20</div>
+                                </div>
+                            </div>
+                            <div class="batch-box">
+                                <h5>🟡 Batch 3 - Evening</h5>
+                                <div class="time">4:00 PM - 8:00 PM</div>
+                                <p style="color:#888; font-size:0.9rem;">20 Students</p>
+                                <div class="vm-count">
+                                    <div class="vm-icon">S1</div>
+                                    <div class="vm-icon">S2</div>
+                                    <div class="vm-icon">S3</div>
+                                    <div class="vm-icon">...</div>
+                                    <div class="vm-icon">S20</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Insight -->
+                    <div class="arch-step" style="background: rgba(40,167,69,0.1); border-color: #28a745;">
+                        <h4>💡 Smart Approach: VM Reuse</h4>
+                        <p style="color:#28a745; font-weight:bold; font-size:1.1rem;">
+                            60 VMs avasaram ledu! Same 20 VMs ni 3 batches ki reuse cheyochu!
+                        </p>
+                        <div style="margin-top:15px; color:#aaa;">
+                            <p>✅ Batch 1 (Morning): VMs Start → Practice → Stop → <strong style="color:#ff9900;">Reset to Snapshot</strong></p>
+                            <p>✅ Batch 2 (Afternoon): VMs Start → Practice → Stop → <strong style="color:#ff9900;">Reset to Snapshot</strong></p>
+                            <p>✅ Batch 3 (Evening): VMs Start → Practice → Stop → <strong style="color:#ff9900;">Reset to Snapshot</strong></p>
+                        </div>
+                        <div style="margin-top:15px; background:#0d1b2a; padding:15px; border-radius:10px;">
+                            <span style="color:#28a745; font-weight:bold;">Result:</span> 
+                            <span style="color:#fff;">60 VMs cost → 20 VMs cost = <strong style="color:#ff9900;">67% Savings!</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VM Configuration -->
+        <section id="vm-config">
+            <div class="section-title">
+                <h2>💻 VM Configuration</h2>
+                <p>SAP Basis training ki optimal instance specifications</p>
+            </div>
+
+            <div class="card">
+                <h3>📋 Server Requirements per Student</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Specification</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>RAM</strong></td>
+                                <td>32 GB (r6i.xlarge)</td>
+                                <td>SAP + HANA minimum requirement</td>
+                            </tr>
+                            <tr>
+                                <td><strong>vCPUs</strong></td>
+                                <td>4 Cores</td>
+                                <td>SAP application processing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Storage</strong></td>
+                                <td>250 GB gp3 SSD</td>
+                                <td>SAP installation + data</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OS</strong></td>
+                                <td>SUSE Linux Enterprise Server 15</td>
+                                <td>SAP certified platform</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Network</strong></td>
+                                <td>VPC with Public Subnet</td>
+                                <td>Student access via RDP/SSH</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🖥️ Recommended Instance Types</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Instance Type</th>
+                                <th>vCPUs</th>
+                                <th>RAM</th>
+                                <th>Hourly Cost</th>
+                                <th>Recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight">
+                                <td><strong>r6i.xlarge</strong></td>
+                                <td>4</td>
+                                <td>32 GB</td>
+                                <td class="price">$0.252/hr</td>
+                                <td>⭐ Best for SAP Training</td>
+                            </tr>
+                            <tr>
+                                <td>r5.xlarge</td>
+                                <td>4</td>
+                                <td>32 GB</td>
+                                <td class="price">$0.236/hr</td>
+                                <td>Budget alternative</td>
+                            </tr>
+                            <tr>
+                                <td>m6i.2xlarge</td>
+                                <td>8</td>
+                                <td>32 GB</td>
+                                <td>$0.384/hr</td>
+                                <td>If more CPU needed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Batch Schedule -->
+        <section id="batch-schedule">
+            <div class="section-title">
+                <h2>⏰ Batch Schedule & Automation</h2>
+                <p>Smart scheduling tho cost optimization</p>
+            </div>
+
+            <div class="schedule-grid">
+                <div class="schedule-card batch1">
+                    <h4>🔴 Batch 1 - Morning</h4>
+                    <div class="time-slot">
+                        <div class="time">6:00 AM</div>
+                        <div class="label">Auto Start VMs</div>
+                    </div>
+                    <div class="time-slot">
+                        <div class="time">6:00 - 10:00 AM</div>
+                        <div class="label">Practice Session</div>
+                    </div>
+                    <div class="time-slot">
+                        <div class="time">10:15 AM</div>
+                        <div class="label">Auto Stop + Snapshot Reset</div>
+                    </div>
+                    <p style="color:#888; margin-top:15px;">20 Students • 4 Hours/Day</p>
+                </div>
+
+                <div class="schedule-card batch2">
+                    <h4>🟢 Batch 2 - Afternoon</h4>
+                    <div class="time-slot">
+                        <div class="time">11:00 AM</div>
+                        <div class="label">Auto Start VMs</div>
+                    </div>
+                    <div class="time-slot">
+                        <div class="time">11:00 AM - 3:00 PM</div>
+                        <div class="label">Practice Session</div>
+                    </div>
+                    <div class="time-slot">
+                        <div class="time">3:15 PM</div>
+                        <div class="label">Auto Stop + Snapshot Reset</div>
+                    </div>
+                    <p style="color:#888; margin-top:15px;">20 Students • 4 Hours/Day</p>
+                </div>
+
+                <div class="schedule-card batch3">
+                    <h4>🟡 Batch 3 - Evening</h4>
+                    <div class="time-slot">
+                        <div class="time">4:00 PM</div>
+                        <div class="label">Auto Start VMs</div>
+                    </div>
+                    <div class="time-slot">
+                        <div class="time">4:00 - 8:00 PM</div>
+                        <div class="label">Practice Session</div>
+                    </div>
+                    <div class="time-slot">
+                        <div class="time">8:15 PM</div>
+                        <div class="label">Auto Stop VMs</div>
+                    </div>
+                    <p style="color:#888; margin-top:15px;">20 Students • 4 Hours/Day</p>
+                </div>
+            </div>
+
+            <div class="card" style="background: linear-gradient(145deg, #1a2e1a, #2a3e2a); border-color: #28a745;">
+                <h3 style="color:#28a745;">📊 Daily Runtime Analysis</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Approach</th>
+                                <th>VMs</th>
+                                <th>Daily Hours</th>
+                                <th>Daily Cost</th>
+                                <th>Monthly Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="price-high">❌ 60 VMs (24/7)</td>
+                                <td>60</td>
+                                <td>24 hrs</td>
+                                <td class="price-high">$362/day</td>
+                                <td class="price-high">$10,886/month</td>
+                            </tr>
+                            <tr>
+                                <td class="price-high">❌ 60 VMs (scheduled)</td>
+                                <td>60</td>
+                                <td>12 hrs</td>
+                                <td class="price-high">$181/day</td>
+                                <td class="price-high">$5,443/month</td>
+                            </tr>
+                            <tr class="highlight">
+                                <td class="price">✅ 20 VMs (reused)</td>
+                                <td>20</td>
+                                <td>12 hrs</td>
+                                <td class="price">$60/day</td>
+                                <td class="price">$1,814/month</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="color:#28a745; text-align:center; font-size:1.2rem; margin-top:20px;">
+                    <strong>VM Reuse Strategy tho 83% Cost Savings!</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- Cost Analysis -->
+        <section id="cost">
+            <div class="section-title">
+                <h2>💰 Complete Cost Analysis</h2>
+                <p>60 Students (3 Batches × 20 Students) - Monthly Costs</p>
+            </div>
+
+            <div class="cost-grid">
+                <div class="cost-card">
+                    <span class="badge" style="background:#dc3545;">Not Recommended</span>
+                    <h4>Option 1: 60 VMs (24/7)</h4>
+                    <div class="amount" style="color:#dc3545;">$11,500</div>
+                    <div class="per-student">$192/student/month</div>
+                    <ul>
+                        <li>60 × r6i.xlarge instances</li>
+                        <li>Always running</li>
+                        <li>Maximum flexibility</li>
+                        <li>Highest cost</li>
+                    </ul>
+                </div>
+
+                <div class="cost-card">
+                    <span class="badge badge-good">Better</span>
+                    <h4>Option 2: 60 VMs (Scheduled)</h4>
+                    <div class="amount" style="color:#ffc107;">$5,800</div>
+                    <div class="per-student">$97/student/month</div>
+                    <ul>
+                        <li>60 × r6i.xlarge instances</li>
+                        <li>12 hrs/day runtime</li>
+                        <li>Dedicated VMs per student</li>
+                        <li>Auto start/stop</li>
+                    </ul>
+                </div>
+
+                <div class="cost-card recommended">
+                    <span class="badge badge-best">🏆 Best Choice</span>
+                    <h4>Option 3: 20 VMs (Reused)</h4>
+                    <div class="amount" style="color:#28a745;">$2,100</div>
+                    <div class="per-student">$35/student/month</div>
+                    <ul>
+                        <li>20 × r6i.xlarge instances</li>
+                        <li>3 batches share VMs</li>
+                        <li>Snapshot reset between batches</li>
+                        <li>82% savings vs 24/7</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Detailed Cost Breakdown (Option 3 - Recommended)</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Specification</th>
+                                <th>Qty</th>
+                                <th>Unit Cost</th>
+                                <th>Monthly Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>EC2 Instances</strong></td>
+                                <td>r6i.xlarge (12 hrs × 25 days)</td>
+                                <td>20</td>
+                                <td>$0.252/hr</td>
+                                <td class="price">$1,512</td>
+                            </tr>
+                            <tr>
+                                <td><strong>EBS Storage</strong></td>
+                                <td>250 GB gp3 per VM</td>
+                                <td>20</td>
+                                <td>$20/month</td>
+                                <td class="price">$400</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Snapshots</strong></td>
+                                <td>AMI + daily snapshots</td>
+                                <td>-</td>
+                                <td>~$0.05/GB</td>
+                                <td class="price">$50</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data Transfer</strong></td>
+                                <td>Outbound traffic</td>
+                                <td>-</td>
+                                <td>~$0.09/GB</td>
+                                <td class="price">$50</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SUSE License</strong></td>
+                                <td>SLES 15 (included in AMI)</td>
+                                <td>20</td>
+                                <td>~$0.05/hr</td>
+                                <td class="price">$75</td>
+                            </tr>
+                            <tr style="background: rgba(40,167,69,0.2);">
+                                <td colspan="4"><strong>Total Monthly Cost</strong></td>
+                                <td class="price" style="font-size:1.3rem;"><strong>~$2,087</strong></td>
+                            </tr>
+                            <tr style="background: rgba(40,167,69,0.2);">
+                                <td colspan="4"><strong>Per Student (60 students)</strong></td>
+                                <td class="price" style="font-size:1.3rem;"><strong>~$35/month</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation -->
+        <section id="implementation">
+            <div class="section-title">
+                <h2>🛠️ Implementation Steps</h2>
+                <p>Step-by-step setup guide</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Create Master VM & Install SAP</h4>
+                        <p>SUSE Linux tho VM create chesi complete SAP environment setup cheyandi</p>
+                        <div class="code-block">
+                            <pre><span class="comment"># Launch Master Instance</span>
+aws ec2 run-instances \
+  --image-id ami-0123456789abcdef0 \
+  --instance-type r6i.xlarge \
+  --key-name sap-training-key \
+  --security-group-ids sg-0123456789abcdef0 \
+  --subnet-id subnet-0123456789abcdef0 \
+  --block-device-mappings '[{
+    "DeviceName": "/dev/sda1",
+    "Ebs": {
+      "VolumeSize": 250,
+      "VolumeType": "gp3",
+      "Iops": 3000,
+      "Throughput": 125
+    }
+  }]' \
+  --tag-specifications 'ResourceType=instance,Tags=[
+    {Key=Name,Value=SAP-Master},
+    {Key=Environment,Value=Training}
+  ]'</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Create Golden AMI</h4>
+                        <p>SAP installation complete ayyaka AMI create cheyandi</p>
+                        <div class="code-block">
+                            <pre><span class="comment"># Create AMI from Master</span>
+aws ec2 create-image \
+  --instance-id i-0123456789abcdef0 \
+  --name "SAP-Training-AMI-v1-$(date +%Y%m%d)" \
+  --description "SAP Basis Training - NetWeaver + HANA" \
+  --no-reboot \
+  --tag-specifications 'ResourceType=image,Tags=[
+    {Key=Name,Value=SAP-Training-Golden-AMI},
+    {Key=Version,Value=1.0}
+  ]'</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Create Launch Template</h4>
+                        <p>Reusable template create cheyandi quick deployment kosam</p>
+                        <div class="code-block">
+                            <pre><span class="comment"># Create Launch Template</span>
+aws ec2 create-launch-template \
+  --launch-template-name SAP-Student-VM-Template \
+  --version-description "SAP Training Student VM" \
+  --launch-template-data '{
+    "ImageId": "ami-your-golden-ami-id",
+    "InstanceType": "r6i.xlarge",
+    "KeyName": "sap-training-key",
+    "SecurityGroupIds": ["sg-0123456789abcdef0"],
+    "BlockDeviceMappings": [{
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+        "VolumeSize": 250,
+        "VolumeType": "gp3"
+      }
+    }],
+    "TagSpecifications": [{
+      "ResourceType": "instance",
+      "Tags": [
+        {"Key": "Environment", "Value": "Training"},
+        {"Key": "Project", "Value": "SAP-Basis"},
+        {"Key": "AutoStop", "Value": "true"}
+      ]
+    }]
+  }'</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Launch 20 Student VMs</h4>
+                        <p>Template use chesi all student VMs launch cheyandi</p>
+                        <div class="code-block">
+                            <pre><span class="comment"># Launch 20 VMs for students</span>
+aws ec2 run-instances \
+  --launch-template LaunchTemplateName=SAP-Student-VM-Template \
+  --count 20 \
+  --tag-specifications 'ResourceType=instance,Tags=[
+    {Key=Name,Value=SAP-Student-VM}
+  ]'
+
+<span class="comment"># Tag each VM with student number</span>
+for i in {1..20}; do
+  aws ec2 create-tags \
+    --resources $(aws ec2 describe-instances \
+      --filters "Name=tag:Name,Values=SAP-Student-VM" \
+      --query "Reservations[$((i-1))].Instances[0].InstanceId" \
+      --output text) \
+    --tags "Key=StudentVM,Value=Student-$i"
+done</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Setup Auto Start/Stop (EventBridge + Lambda)</h4>
+                        <p>Scheduled automation configure cheyandi cost savings kosam</p>
+                        <div class="code-block">
+                            <pre><span class="comment"># Lambda Function - Start VMs</span>
+import boto3
+import json
+
+def lambda_handler(event, context):
+    ec2 = boto3.client('ec2')
+    
+    <span class="comment"># Get all training instances</span>
+    response = ec2.describe_instances(
+        Filters=[
+            {'Name': 'tag:Environment', 'Values': ['Training']},
+            {'Name': 'instance-state-name', 'Values': ['stopped']}
+        ]
+    )
+    
+    instance_ids = []
+    for reservation in response['Reservations']:
+        for instance in reservation['Instances']:
+            instance_ids.append(instance['InstanceId'])
+    
+    if instance_ids:
+        ec2.start_instances(InstanceIds=instance_ids)
+        print(f'Started {len(instance_ids)} instances')
+        return {'statusCode': 200, 'body': f'Started {len(instance_ids)} VMs'}
+    
+    return {'statusCode': 200, 'body': 'No instances to start'}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h4>Create Management Script</h4>
+                        <p>Easy management kosam shell script create cheyandi</p>
+                        <div class="code-block">
+                            <pre><span class="comment">#!/bin/bash</span>
+<span class="comment"># sap-lab-manager.sh - SAP Training Lab Management</span>
+
+<span class="keyword">case</span> $1 <span class="keyword">in</span>
+  start)
+    echo <span class="string">"🚀 Starting all SAP Training VMs..."</span>
+    aws ec2 start-instances \
+      --instance-ids $(aws ec2 describe-instances \
+        --filters "Name=tag:Environment,Values=Training" \
+        --query 'Reservations[].Instances[].InstanceId' \
+        --output text)
+    ;;
+  
+  stop)
+    echo <span class="string">"🛑 Stopping all SAP Training VMs..."</span>
+    aws ec2 stop-instances \
+      --instance-ids $(aws ec2 describe-instances \
+        --filters "Name=tag:Environment,Values=Training" \
+        --query 'Reservations[].Instances[].InstanceId' \
+        --output text)
+    ;;
+  
+  status)
+    echo <span class="string">"📊 VM Status:"</span>
+    aws ec2 describe-instances \
+      --filters "Name=tag:Environment,Values=Training" \
+      --query 'Reservations[].Instances[].[Tags[?Key==`StudentVM`].Value|[0],State.Name,PrivateIpAddress,PublicIpAddress]' \
+      --output table
+    ;;
+  
+  reset)
+    echo <span class="string">"🔄 Resetting VMs to clean snapshot..."</span>
+    <span class="comment"># Stop, restore snapshot, start</span>
+    ./sap-lab-manager.sh stop
+    sleep 60
+    <span class="comment"># Add snapshot restore logic here</span>
+    ./sap-lab-manager.sh start
+    ;;
+  
+  *)
+    echo <span class="string">"Usage: $0 {start|stop|status|reset}"</span>
+    ;;
+<span class="keyword">esac</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section id="best-practices">
+            <div class="section-title">
+                <h2>✨ Best Practices</h2>
+                <p>Cost optimization & management tips</p>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🏷️ Tagging Strategy</h4>
+                    <p>All resources ki proper tags add cheyandi - Environment, Project, Batch, StudentID. Cost tracking & automation easy avtundi.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>📸 Daily Snapshots</h4>
+                    <p>Each batch end lo VMs ni base snapshot ki reset cheyandi. Fresh environment next batch ki ready untundi.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⏰ Strict Scheduling</h4>
+                    <p>VMs ni exact times lo start/stop cheyandi. Extra hours = extra cost. Lambda + EventBridge use cheyandi.</p>
+                    <span class="savings-badge">50%+ Savings</span>
+                </div>
+                <div class="tip-card">
+                    <h4>📊 Cost Monitoring</h4>
+                    <p>AWS Cost Explorer + Budgets setup cheyandi. Daily cost alerts configure cheyandi unexpected spikes catch cheyyadaniki.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔒 Security Groups</h4>
+                    <p>Only required ports open cheyandi (SAP GUI: 3200-3299, RDP: 3389). IP restrictions add cheyandi.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>📈 Reserved Instances</h4>
+                    <p>Long-term training (6+ months) ki Reserved Instances consider cheyandi.</p>
+                    <span class="savings-badge">30-40% Savings</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Recommendation -->
+        <div class="final-recommendation">
+            <h2>🎯 Final Recommendation</h2>
+            
+            <div class="recommendation-grid">
+                <div class="rec-item">
+                    <div class="label">Instance Type</div>
+                    <div class="value">r6i.xlarge</div>
+                </div>
+                <div class="rec-item">
+                    <div class="label">Total VMs</div>
+                    <div class="value">20 (Shared)</div>
+                </div>
+                <div class="rec-item">
+                    <div class="label">Storage</div>
+                    <div class="value">250GB gp3</div>
+                </div>
+                <div class="rec-item">
+                    <div class="label">Daily Runtime</div>
+                    <div class="value">12 Hours</div>
+                </div>
+                <div class="rec-item">
+                    <div class="label">OS</div>
+                    <div class="value">SUSE Linux 15</div>
+                </div>
+                <div class="rec-item">
+                    <div class="label">Automation</div>
+                    <div class="value">EventBridge + Lambda</div>
+                </div>
+            </div>
+
+            <div class="total-cost">
+                <h3>Total Monthly Cost (60 Students)</h3>
+                <div class="amount">~$2,100/month</div>
+                <div class="per-student">Only $35 per student!</div>
+            </div>
+
+            <p style="color:#aaa; margin-top:30px;">
+                Compared to 24/7 running: <strong style="color:#28a745;">$9,400/month savings (82%)</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>📚 SAP Basis Training Lab - AWS Infrastructure Guide</p>
+        <p style="margin-top:10px;">Created: December 2025 | Best Practices for Cost-Effective Training</p>
+        <p style="margin-top:20px; color:#888;">Questions? Contact: your-email@example.com</p>
+    </footer>
+
+    <!-- Smooth Scroll -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
